@@ -7,4 +7,5 @@
 /uiDesigner.xml
 /vcs.xml
 
-../target/**
+**/target
+**/codeStyles
