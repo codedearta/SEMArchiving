@@ -1,2 +1,10 @@
 # Default ignored files
 /workspace.xml
+/compiler.xml
+/encodings.xml
+/misc.xml
+/mongoSettings.xml
+/uiDesigner.xml
+/vcs.xml
+
+../target/**
