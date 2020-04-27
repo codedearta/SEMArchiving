@@ -156,6 +156,16 @@ class SEMConsumeAndArchivingbatchedTest {
         }
     }
 
+    private List<RawBsonDocument> consumeBatch(MongoCursor<RawBsonDocument> cursor, int batchSize, Consumer<RawBsonDocument> consumer) {
+        ArrayList<RawBsonDocument> batchOfDocs = new ArrayList<>();
+        for (int i = 0; i < batchSize && cursor.hasNext(); i++) {
+            final RawBsonDocument next = cursor.next();
+            consumer.accept(next);
+            batchOfDocs.add(next);
+        }
+        return batchOfDocs;
+    }
+
     private void archiveBatched(MongoCollection<RawBsonDocument> archive, FindIterable<RawBsonDocument> resultIterable, int batchSize) {
         final MongoCursor<RawBsonDocument> cursor = resultIterable.batchSize(batchSize).cursor();
         while (cursor.hasNext()) {
@@ -168,16 +178,6 @@ class SEMConsumeAndArchivingbatchedTest {
         ArrayList<RawBsonDocument> batchOfDocs = new ArrayList<>();
         for (int i = 0; i < batchSize && cursor.hasNext(); i++) {
             batchOfDocs.add(cursor.next());
-        }
-        return batchOfDocs;
-    }
-
-    private List<RawBsonDocument> consumeBatch(MongoCursor<RawBsonDocument> cursor, int batchSize, Consumer<RawBsonDocument> consumer) {
-        ArrayList<RawBsonDocument> batchOfDocs = new ArrayList<>();
-        for (int i = 0; i < batchSize && cursor.hasNext(); i++) {
-            final RawBsonDocument next = cursor.next();
-            consumer.accept(next);
-            batchOfDocs.add(next);
         }
         return batchOfDocs;
     }
